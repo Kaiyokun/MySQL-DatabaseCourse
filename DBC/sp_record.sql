@@ -22,8 +22,14 @@ BEGIN
 
                         'global_instrumentation',
                         'thread_instrumentation',
+                        'statements_digest',
                         'events_statements_history_long'
                 );
+
+        UPDATE
+                performance_schema.setup_instruments
+        SET
+                enabled = 'no', timed = 'no'
 
         UPDATE
                 performance_schema.setup_instruments
@@ -65,8 +71,10 @@ BEGIN
                 dbcs.number              AS '学号',
                 dbcccr.host              AS '主机IP',
                 dbcccr.conntime          AS '上机时间',
+                pseshl.event_id          AS '操作ID',
                 pseshl.event_name        AS '操作',
                 pseshl.sql_text          AS 'SQL语句',
+                pseshl.digest_text       AS '格式化SQL语句',
 
                 DatabaseCourse.Timer2DateTime( pseshl.timer_start )
                                          AS '开始时间',
@@ -75,8 +83,9 @@ BEGIN
                                          AS '运行时间(皮秒)',
 
                 pseshl.current_schema    AS '数据库',
-                pseshl.returned_sqlstate AS 'SQL状态',
+                pseshl.mysql_errno       AS '提示ID',
                 pseshl.message_text      AS '提示消息',
+                pseshl.returned_sqlstate AS 'SQL返回状态',
                 pseshl.errors            AS '错误',
                 pseshl.warnings          AS '警告'
         FROM
