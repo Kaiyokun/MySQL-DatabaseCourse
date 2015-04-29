@@ -1,0 +1,9 @@
+SELECT
+        Manager, Name, Charge
+FROM
+        Project
+WHERE
+        Charge ^> %1
+ORDER BY
+        Charge DESC
+;
