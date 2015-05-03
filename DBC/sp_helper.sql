@@ -319,8 +319,10 @@ BEGIN
 
         SELECT
                 @ID := @ID + 1           AS '',
+                pseshl.event_id          AS '操作ID',
                 pseshl.event_name        AS '操作',
                 pseshl.sql_text          AS 'SQL语句',
+                pseshl.digest_text       AS '格式化SQL语句',
 
                 DatabaseCourse.Timer2DateTime( pseshl.timer_start )
                                          AS '开始时间',
@@ -329,8 +331,9 @@ BEGIN
                                          AS '运行时间(皮秒)',
 
                 pseshl.current_schema    AS '数据库',
-                pseshl.returned_sqlstate AS 'SQL状态',
+                pseshl.mysql_errno       AS '提示ID',
                 pseshl.message_text      AS '提示消息',
+                pseshl.returned_sqlstate AS 'SQL返回状态',
                 pseshl.errors            AS '错误',
                 pseshl.warnings          AS '警告'
         FROM
@@ -346,57 +349,5 @@ BEGIN
                 dbcccr.user = substring_index( session_user(), '@',  1 )
         ;
 END//
-/*
-CREATE PROCEDURE DatabaseCourse.sp_AlterUser (
-\*******************************************************************************
- *
- * Procedure Name: sp_AlterUser
- * Description:    修改mysql用户
- * Parameter:
- *
- ******************************************************************************\
-        IN szUserOld VARCHAR(128), -- 原用户名@主机名
-        IN szUserNew VARCHAR(128)  -- 新用户名[@主机名]
-)
-LABEL: BEGIN
-
-        SET @szUserNameOld = substring_index( szUserOld, '@',  1 );
-        SET @szUserHostOld = substring_index( szUserOld, '@', -1 );
-
-        IF (szUserOld = @szUserNameOld) THEN
-
-                LEAVE LABEL;
-        END IF;
-
-        SET @szUserNameNew = substring_index( szUserNew, '@',  1 );
-        SET @szUserHostNew = substring_index( szUserNew, '@', -1 );
-
-        IF (szUserNew = @szUserNameNew) THEN
-
-                UPDATE
-                        mysql.user
-                SET
-                        user = szUserNew
-                WHERE
-                        user = @szUserNameOld
-                        AND
-                        host = @szUserHostOld
-                ;
-        ELSE
-                UPDATE
-                        mysql.user
-                SET
-                        user = @szUserNameNew,
-                        host = @szUserHostNew
-                WHERE
-                        user = @szUserNameOld
-                        AND
-                        host = @szUserHostOld
-                ;
-        END IF;
-
-        FLUSH PRIVILEGES;
-END//
-*/
 
 DELIMITER ;

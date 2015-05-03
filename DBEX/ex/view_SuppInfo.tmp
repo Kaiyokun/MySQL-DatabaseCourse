@@ -1,0 +1,15 @@
+DROP VIEW IF EXISTS DatabaseCourse.view_SuppInfo;
+
+CREATE VIEW DatabaseCourse.view_SuppInfo
+        AS
+SELECT
+        *
+FROM
+        DatabaseCourse.Supplier
+WHERE
+        City
+                IN ( '%1', '%2', '%3' )
+ORDER BY
+        City;
+
+SELECT * FROM DatabaseCourse.view_SuppInfo;

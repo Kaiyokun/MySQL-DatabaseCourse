@@ -1,0 +1,6 @@
+SELECT
+        Name, City
+FROM
+        Supplier
+WHERE
+        Credit = '%1';

@@ -31,7 +31,7 @@ BEGIN
         );
 
         SET @cName   = DatabaseCourse.CountRows( 'DatabaseCourse.Students' );
-        SET @cCity   = DatabaseCourse.CountRows( 'DatabaseCourse.Citys' );
+        SET @cCity   = 24;
         SET @cCredit = (SELECT Count(*) FROM tblCredit);
 
         WHILE (nRec > 0) DO SET nRec = nRec - 1;
@@ -129,7 +129,7 @@ BEGIN
 
         WHILE (nRec > 0) DO SET nRec = nRec - 1;
 
-                SET @szName     = Concat( 'P', Ceil( Rand() * 1000 ) );
+                SET @szName     = Concat( 'P', Ceil( Rand() * 100 ) );
                 SET @szBatchNbr = Concat( 'BN', Mid( Rand(), 3, 10 ) );
 
                 INSERT INTO DatabaseCourse.Part( Name, BatchNbr )
@@ -178,8 +178,8 @@ BEGIN
                 SET @nSupplierID = Ceil( Rand() * @cSupplier );
                 SET @nProjectID  = Ceil( Rand() * @cProject );
                 SET @nPartID     = Ceil( Rand() * @cPart );
-                SET @nQuantity   = Ceil( Rand() * 8001 );
-                SET @tTime       = SubDate( CurDate(), Ceil( Rand() * 3210 ) );
+                SET @nQuantity   = Ceil( Rand() * 800 );
+                SET @tTime       = SubDate( '2015-04-01', Ceil( Rand() * 3210 ) );
 
                 INSERT INTO DatabaseCourse.SupplyForm( SupplierID,
                                                        ProjectID,

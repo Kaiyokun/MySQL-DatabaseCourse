@@ -9,9 +9,7 @@ CREATE PROCEDURE DatabaseCourse.sp_CreateClientConnectionRecords()
  *
  ******************************************************************************/
 BEGIN
-        SET GLOBAL event_scheduler = 'ON';
-
-        -- performance_schema.setup_*s
+        SET GLOBAL event_scheduler = 'on';
 
         UPDATE
                 performance_schema.setup_consumers
@@ -29,7 +27,7 @@ BEGIN
         UPDATE
                 performance_schema.setup_instruments
         SET
-                enabled = 'no', timed = 'no'
+                enabled = 'no', timed = 'no';
 
         UPDATE
                 performance_schema.setup_instruments
@@ -149,7 +147,44 @@ BEGIN
                                         ConnTime >= StartTime
                                         AND
                                         ConnTime <  EndTime
-                        )
+                )
+                ORDER BY
+                        dbcc.ID     ASC,
+                        dbcs.Number ASC
+        ) subset;
+END//
+
+
+
+CREATE PROCEDURE DatabaseCourse.sp_ShowOnlineUsers()
+/*******************************************************************************
+ *
+ * Procedure Name: sp_ShowOnlineUsers
+ * Description:    获取当前在线用户列表
+ * Parameter:      NULL
+ *
+ ******************************************************************************/
+BEGIN
+        SET @ID = 0;
+
+        SELECT
+                @ID := @ID + 1 AS '', subset.*
+        FROM (
+                SELECT DISTINCT
+                        dbcc.name   AS '班级',
+                        dbcs.name   AS '姓名',
+                        dbcs.number AS '学号',
+                        Now()       AS '当前时间'
+                FROM
+                        DatabaseCourse.Students dbcs
+                INNER JOIN
+                        DatabaseCourse.Classes dbcc
+                                ON dbcc.ID = dbcs.ClassID
+                INNER JOIN
+                        performance_schema.threads pst
+                                ON pst.processlist_user = dbcs.number
+                WHERE
+                        pst.name = 'thread/sql/one_connection'
                 ORDER BY
                         dbcc.ID     ASC,
                         dbcs.Number ASC

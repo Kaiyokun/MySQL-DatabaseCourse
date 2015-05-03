@@ -1,0 +1,16 @@
+SELECT
+        s.ID, s.Name, s.Tel, Sum( p.Charge ) AS 'TotalCharge'
+FROM
+        Supplier s
+INNER JOIN
+        SupplyForm sf
+                ON sf.SupplierID = s.ID
+INNER JOIN
+        Project p
+                ON p.ID = sf.ProjectID
+WHERE
+        Year( sf.Time ) = %1
+GROUP BY
+        s.ID
+HAVING
+        Sum( p.Charge ) ^> %2;

@@ -1,0 +1,6 @@
+SELECT
+        Name
+FROM
+        Project
+WHERE
+        Name LIKE '%1%%' OR Name LIKE '%%%2';

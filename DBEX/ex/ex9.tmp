@@ -1,0 +1,12 @@
+SELECT
+        p.*, sf.Time
+FROM
+        Part p
+INNER JOIN
+        SupplyForm sf
+                ON sf.PartID = p.ID
+INNER JOIN
+        Project proj
+                ON proj.ID = sf.ProjectID
+WHERE
+        proj.Name = '%1' AND sf.Time ^> '%2';
