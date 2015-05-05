@@ -1,7 +1,0 @@
-SELECT
-        ID, Name
-FROM
-        Project
-WHERE
-        Charge ^>= %1 AND Charge ^<= %2
-;
