@@ -16,10 +16,18 @@ set home=%~dp0dbex
 set path=%path%;%home%
 set executesql=mysql.exe -h%host% -P%port% -u%user% -p%pswd% --default-character-set=%charset% %database%
 
-echo=请输入你的学号:
+echo=请输入用户名(学号):
 set /p sid=
 
-mysql.exe -h%host% -P%port% -u%sid% -p%sid% -e"exit"
+echo=请输入密码:
+set /p nbr=
+
+if [%nbr%] == [] (
+
+	set nbr=%sid%
+)
+
+mysql.exe -h%host% -P%port% -u%sid% -p%nbr% -e"exit"
 
 if errorlevel 1 (
 
@@ -83,17 +91,34 @@ for /f "delims=# tokens=1,2,3" %%a in (%home%\ex\ex.txt) do (
 			echo=    %ex_text%>> %reporting%
 			echo=>> %reporting%
 
-			echo=sql语句:>> %reporting%
-			type %home%\ex_sql\%ans_tmplt%.sql>> %reporting%
-			echo=>> %reporting%
+			if [%1] == [] (
 
-			echo=执行结果:>> %reporting%
-			%executesql% -t -e"source %home%\ex_sql\%ans_tmplt%.sql">> %reporting%
-			echo=>> %reporting%
+				echo=题目:
+				echo=    %ex_text%
+				echo=
+				%executesql% -s -t
+
+				echo=sql语句:>> %reporting%
+				echo=>> %reporting%
+				echo=>> %reporting%
+
+				echo=执行结果:>> %reporting%
+				echo=>> %reporting%
+				echo=>> %reporting%
+			) else (
+
+				echo=sql语句:>> %reporting%
+				type %home%\ex_sql\%ans_tmplt%.sql>> %reporting%
+				echo=>> %reporting%
+
+				echo=执行结果:>> %reporting%
+				%executesql% -t -e"source %home%\ex_sql\%ans_tmplt%.sql">> %reporting%
+				echo=>> %reporting%
+			)
 		)
 	)
 )
 
-start %reporting%
+start /wait %reporting%
 
 exit
