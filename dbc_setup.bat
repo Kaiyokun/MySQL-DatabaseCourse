@@ -10,7 +10,7 @@ set user=root
 set pswd=1267
 set charset=gbk
 
-mysql.exe -h%host% -P%port% -u%user% -p%pswd% --default-character-set=%charset% -e"source dbc_setup.sql"
+mysql.exe -h%host% -P%port% -u%user% -p%pswd% --default-character-set=%charset% -v -v -v -e"source dbc_setup.sql"
 
 pause
 
