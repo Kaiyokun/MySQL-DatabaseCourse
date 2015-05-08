@@ -5,29 +5,14 @@ title 数据库课程上机习题解答程序
 mode con cols=800 lines=600
 color 03
 
-set host=localhost
-set port=3306
-set user=proxy
-set pswd=proxy
-set charset=gbk
-set database=databasecourse
-
-set home=%~dp0dbex
+set home=%~dp0
 set path=%path%;%home%
 set executesql=mysql.exe -h%host% -P%port% -u%user% -p%pswd% --default-character-set=%charset% %database%
 
 echo=请输入用户名(学号):
 set /p sid=
 
-echo=请输入密码:
-set /p nbr=
-
-if [%nbr%] == [] (
-
-	set nbr=%sid%
-)
-
-mysql.exe -h%host% -P%port% -u%sid% -p%nbr% -e"exit"
+mysql.exe -h%host% -P%port% -u%sid% -p -e"exit"
 
 if errorlevel 1 (
 
@@ -83,7 +68,7 @@ for /f "delims=# tokens=1,2,3" %%a in (%home%\ex\ex.txt) do (
 
 	for /f "usebackq delims=? tokens=%ex_idx%" %%N in ('%q_tmplt%') do (
 
-		for /f "usebackq tokens=%arg_idx%" %%A in (`%executesql% -N -s -e"source %home%\ex\%tmplt_arg%"`) do (
+		for /f "usebackq tokens=%arg_idx%" %%A in (`%executesql% -N -s -e"SOURCE %home%\ex\%tmplt_arg%"`) do (
 
 			call %home%\ex_bat\%ans_tmplt%.bat %arg_split% > %home%\ex_sql\%ans_tmplt%.sql
 
@@ -112,7 +97,7 @@ for /f "delims=# tokens=1,2,3" %%a in (%home%\ex\ex.txt) do (
 				echo=>> %reporting%
 
 				echo=执行结果:>> %reporting%
-				%executesql% -t -e"source %home%\ex_sql\%ans_tmplt%.sql">> %reporting%
+				%executesql% -t -e"SOURCE %home%\ex_sql\%ans_tmplt%.sql">> %reporting%
 				echo=>> %reporting%
 			)
 		)
