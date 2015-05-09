@@ -34,7 +34,7 @@ BEGIN
         SET
                 enabled = 'yes', timed = 'yes'
         WHERE
-                name LIKE 'statements/%';
+                name LIKE 'statement/%';
 
         CREATE TABLE IF NOT EXISTS
                 DatabaseCourse.ClientConnectionRecords (

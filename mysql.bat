@@ -23,6 +23,6 @@ if [%usr%] == [] (
 	set pswd=
 )
 
-%~dp0dbex\mysql.exe -h%host% -P%port% -u%usr% -p%pswd% --default-character-set=%charset% -s -t %database%
+%~dp0dbex\mysql.exe -h%host% -P%port% -u%usr% -p%pswd% --default-character-set=%charset% %database%
 
 exit
