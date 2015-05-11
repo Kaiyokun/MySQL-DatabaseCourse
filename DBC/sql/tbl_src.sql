@@ -1,10 +1,10 @@
 CREATE DATABASE IF NOT EXISTS
 /*******************************************************************************
  *
- * 创建数据库DatabaseCourse(数据库课程)，字符集gbk
+ * 创建数据库DatabaseCourse(数据库课程)，字符集utf8
  *
  ******************************************************************************/
-        DatabaseCourse CHARACTER SET = gbk;
+        DatabaseCourse CHARACTER SET = utf8;
 
 
 
